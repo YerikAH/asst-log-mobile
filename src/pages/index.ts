@@ -1,0 +1,9 @@
+export {default as Home} from './home';
+export {default as Login} from './login';
+export {default as Register} from './register';
+export {default as Dashboard} from './dashboard';
+export {default as Spaces} from './spaces';
+export {default as Profile} from './profile';
+export {default as Notification} from './notification';
+export {default as JoinSpace} from './spaces/join-space';
+export {default as Space} from './spaces/space';
