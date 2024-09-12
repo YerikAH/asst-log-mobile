@@ -8,6 +8,7 @@ export enum RoutesSpace {
   Spaces = 'Spaces',
   Space = 'Space',
   JoinSpace = 'JoinSpace',
+  SuccessSpace = 'SuccessSpace',
 }
 
 export enum RoutesTabs {

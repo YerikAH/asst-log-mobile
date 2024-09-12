@@ -1,20 +1,26 @@
+import {useAppNavigation} from '@/hooks';
+import {RoutesSpace} from '@/navigation/routes';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {PlusIcon} from 'react-native-heroicons/outline';
 
-export const FloatingButton = () => (
-  <View
-    style={{
-      paddingHorizontal: 32,
-      position: 'absolute',
-      width: '100%',
-      bottom: 0,
-    }}>
-    <TouchableOpacity style={styles.button}>
-      <PlusIcon size={16} color="#FFF" strokeWidth={2} />
-      <Text style={styles.buttonText}>Registrar asistencia</Text>
-    </TouchableOpacity>
-  </View>
-);
+export const FloatingButton = () => {
+  const {navigateTo} = useAppNavigation();
+  const navigateToSpace = () => navigateTo(RoutesSpace.SuccessSpace);
+  return (
+    <View
+      style={{
+        paddingHorizontal: 32,
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+      }}>
+      <TouchableOpacity style={styles.button} onPress={navigateToSpace}>
+        <PlusIcon size={16} color="#FFF" strokeWidth={2} />
+        <Text style={styles.buttonText}>Registrar asistencia</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   button: {
