@@ -7,14 +7,24 @@ export const HistoryCard = () => {
       {/* <View style={styles.containerIcon}>
         <ArrowDownOnSquareStackIcon size={24} color="#22c55e" />
       </View> */}
-      <View style={{flex: 1}}>
-        <View style={styles.containerRow}>
-          <Text style={styles.title}>Entrada</Text>
-          <Text style={styles.subtitle}>07: 47</Text>
+      <View style={styles.containerRow}>
+        <View>
+          <Text style={styles.text}>07: 47</Text>
+          <Text style={styles.title}>Febrero 23 del 2024</Text>
+          <Text style={{...styles.subtitle, color: '#22c55e'}}>Entrada</Text>
         </View>
-        <View style={styles.containerRow}>
-          <Text style={styles.text}>Febrero 23 del 2024</Text>
-          <Text style={styles.text}>Temprano</Text>
+        <View>
+          <Text
+            style={{
+              ...styles.text,
+              backgroundColor: '#dcfce7',
+              color: '#22c55e',
+              paddingVertical: 8,
+              paddingHorizontal: 16,
+              borderRadius: 15,
+            }}>
+            Temprano
+          </Text>
         </View>
       </View>
     </View>
@@ -26,15 +36,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   containerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flex: 1,
+    width: '100%',
   },
   title: {
     fontSize: 14,
-    fontFamily: 'Lexend-Medium',
+    fontFamily: 'Lexend-SemiBold',
     color: '#111827',
   },
   subtitle: {

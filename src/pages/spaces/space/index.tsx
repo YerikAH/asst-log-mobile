@@ -27,8 +27,8 @@ export default function Space() {
       <ScrollView
         style={{paddingHorizontal: 32, paddingTop: 32}}
         showsVerticalScrollIndicator={false}>
-        <SpaceInfo />
         <SpaceCurrentInfo />
+        <SpaceInfo />
         <SpaceHistory />
       </ScrollView>
       <FloatingButton />

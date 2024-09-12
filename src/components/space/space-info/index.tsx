@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {ChartAttendance} from './chart-attendance';
-import {ClockIcon} from 'react-native-heroicons/solid';
+import {BuildingOffice2Icon, ClockIcon} from 'react-native-heroicons/solid';
+import TurboImage from 'react-native-turbo-image';
 
 const statusChart = [
   {name: 'Temprano', color: '#22c55e'},
@@ -12,21 +13,6 @@ const statusChart = [
 export const SpaceInfo = () => {
   return (
     <View style={{backgroundColor: '#FFF', marginBottom: 16, borderRadius: 20}}>
-      <View style={{paddingHorizontal: 16}}>
-        <View style={{flexDirection: 'row', columnGap: 10}}>
-          <ClockIcon size={20} color="#d1d5db" />
-          <View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.subtitle}>Hora de entrada: </Text>
-              <Text style={styles.text}>07:00 AM</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.subtitle}>Hora de salida: </Text>
-              <Text style={styles.text}>08:00 PM</Text>
-            </View>
-          </View>
-        </View>
-      </View>
       <ChartAttendance />
       <View style={styles.statusContainer}>
         {statusChart.map((item, index) => (
