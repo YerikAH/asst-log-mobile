@@ -1,4 +1,4 @@
-import {FormJoin} from '@/components/join-space';
+import {FormJoin, OptionsJoin} from '@/components/join-space';
 import {CustomHeader} from '@/components/shared';
 import {useAppNavigation} from '@/hooks';
 import {RoutesSpace} from '@/navigation/routes';
@@ -7,6 +7,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
@@ -24,20 +25,13 @@ export default function JoinSpace() {
       <CustomHeader navigate={navigateToSpaces} title="Entrar a asistencia" />
       <ScrollView
         style={{
-          paddingHorizontal: 32,
           paddingTop: 32,
         }}
         showsVerticalScrollIndicator={false}>
-        <FormJoin />
-        <ScrollView horizontal>
-          <View>
-            <Text>Crear asistencia</Text>
-
-            <View>
-              <Text>Aún tiene asistencias creadas</Text>
-            </View>
-          </View>
-        </ScrollView>
+        <View style={{paddingHorizontal: 32}}>
+          <FormJoin />
+        </View>
+        <OptionsJoin />
       </ScrollView>
     </SafeAreaView>
   );
