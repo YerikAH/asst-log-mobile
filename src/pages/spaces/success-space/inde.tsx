@@ -22,83 +22,70 @@ export default function SuccessSpace() {
         showHideTransition="slide"
       />
       <ScrollView
-        style={{
-          paddingTop: 32,
-        }}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
+        contentContainerStyle={styles.scrollViewContainer}
         showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            paddingHorizontal: 32,
-            flex: 1,
-            height: '100%',
-          }}>
-          <View></View>
-          <View style={styles.containerMessage}>
-            <Image source={iconSuccess} style={styles.icon} />
-            <Text style={styles.title}>¡Registro exitoso!</Text>
-            <Text style={styles.text}>
-              {' '}
-              Tu asistencia ha sido registrada correctamente en el equipo de{' '}
-              <Text style={{color: '#111827', fontFamily: 'Lexend-SemiBold'}}>
-                Recursos humanos
+        <View style={styles.containerMessage}>
+          <Image source={iconSuccess} style={styles.icon} />
+          <Text style={styles.title}>¡Registro exitoso!</Text>
+          <Text style={styles.text}>
+            Tu asistencia ha sido registrada correctamente en el equipo de{' '}
+            <Text style={{color: '#111827', fontFamily: 'Lexend-SemiBold'}}>
+              Recursos humanos
+            </Text>
+            . ¡Gracias por participar!
+          </Text>
+
+          <Text style={styles.text}>
+            Llegaste a tiempo, buena suerte el día de hoy. Te recomendamos leer
+            nuestros últimos tips.
+          </Text>
+
+          <View style={styles.containerTag}>
+            <TouchableOpacity style={styles.tagButton}>
+              <BoltIcon color="#eab308" size={14} />
+              <Text style={styles.tagButtonText}>
+                Cómo levantarse temprano todos los días
               </Text>
-              . ¡Gracias por participar!
-            </Text>
-
-            <Text style={styles.text}>
-              Llegaste a tiempo, buena suerte el día de hoy. Te recomendamos
-              leer nuestros últimos tips.
-            </Text>
-
-            <View style={styles.containerTag}>
-              <TouchableOpacity style={styles.tagButton}>
-                <BoltIcon color="#eab308" size={14} />
-                <Text style={styles.tagButtonText}>
-                  Cómo levantarse temprano todos los días
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tagButton}>
-                <Battery50Icon color="#3b82f6" size={14} />
-                <Text style={styles.tagButtonText}>
-                  La importancia de dormir correctamente
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: '100%',
-              rowGap: 10,
-              paddingBottom: 32,
-            }}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Ver mis asistencias</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                ...styles.button,
-                backgroundColor: '#FFF',
-                borderColor: '#f3f4f6',
-                borderWidth: 1,
-                elevation: 0.6,
-              }}>
-              <Text style={{...styles.buttonText, color: '#111827'}}>
-                Volver atrás
+            <TouchableOpacity style={styles.tagButton}>
+              <Battery50Icon color="#3b82f6" size={14} />
+              <Text style={styles.tagButtonText}>
+                La importancia de dormir correctamente
               </Text>
             </TouchableOpacity>
           </View>
         </View>
+
+        <View
+          style={{
+            width: '100%',
+            paddingBottom: 32,
+            paddingHorizontal: 32,
+            rowGap: 10,
+          }}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Ver mis asistencias</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: '#FFF',
+              borderColor: '#f3f4f6',
+              borderWidth: 1,
+              elevation: 0.6,
+            }}>
+            <Text style={{...styles.buttonText, color: '#111827'}}>
+              Volver atrás
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
       <ConfettiCannon
-        count={200}
+        count={100}
         origin={{x: -40, y: 0}}
-        fallSpeed={6000}
-        explosionSpeed={100}
+        fallSpeed={2000}
+        explosionSpeed={350}
         colors={['#6366f1', '#22c55e', '#3b82f6', '#0ea5e9']}
       />
     </SafeAreaView>
@@ -110,11 +97,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
     flex: 1,
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+    paddingTop: 32,
+    justifyContent: 'space-between',
+  },
   containerMessage: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
     paddingVertical: 16,
+    paddingHorizontal: 32,
   },
   title: {
     fontSize: 24,
