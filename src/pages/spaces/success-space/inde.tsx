@@ -11,6 +11,7 @@ import {
 import ConfettiCannon from 'react-native-confetti-cannon';
 import iconSuccess from '@/assets/icon-success.png';
 import {Battery50Icon, BoltIcon} from 'react-native-heroicons/solid';
+import {ActionButton} from '@/components/success-space';
 
 export default function SuccessSpace() {
   return (
@@ -29,10 +30,8 @@ export default function SuccessSpace() {
           <Text style={styles.title}>¡Registro exitoso!</Text>
           <Text style={styles.text}>
             Tu asistencia ha sido registrada correctamente en el equipo de{' '}
-            <Text style={{color: '#111827', fontFamily: 'Lexend-SemiBold'}}>
-              Recursos humanos
-            </Text>
-            . ¡Gracias por participar!
+            <Text style={styles.textBold}>Recursos humanos</Text>. ¡Gracias por
+            participar!
           </Text>
 
           <Text style={styles.text}>
@@ -41,40 +40,29 @@ export default function SuccessSpace() {
           </Text>
 
           <View style={styles.containerTag}>
-            <TouchableOpacity style={styles.tagButton}>
-              <BoltIcon color="#eab308" size={14} />
-              <Text style={styles.tagButtonText}>
-                Cómo levantarse temprano todos los días
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tagButton}>
-              <Battery50Icon color="#3b82f6" size={14} />
-              <Text style={styles.tagButtonText}>
-                La importancia de dormir correctamente
-              </Text>
-            </TouchableOpacity>
+            <ActionButton
+              icon={BoltIcon}
+              text="Cómo levantarse temprano todos los días"
+              onPress={() => console.log('Levantarse temprano')}
+              colorIcon="#eab308"
+            />
+            <ActionButton
+              icon={Battery50Icon}
+              text="Cómo levantarse temprano todos los días"
+              onPress={() => console.log('Levantarse temprano')}
+              colorIcon="#3b82f6"
+            />
           </View>
         </View>
 
-        <View
-          style={{
-            width: '100%',
-            paddingBottom: 32,
-            paddingHorizontal: 32,
-            rowGap: 10,
-          }}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Ver mis asistencias</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
+            <Text style={[styles.buttonTextPrimary, styles.buttonText]}>
+              Ver mis asistencias
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              ...styles.button,
-              backgroundColor: '#FFF',
-              borderColor: '#f3f4f6',
-              borderWidth: 1,
-              elevation: 0.6,
-            }}>
-            <Text style={{...styles.buttonText, color: '#111827'}}>
+          <TouchableOpacity style={[styles.buttonSecondary, styles.button]}>
+            <Text style={[styles.buttonText, styles.buttonTextSecondary]}>
               Volver atrás
             </Text>
           </TouchableOpacity>
@@ -123,9 +111,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
   },
-
+  textBold: {
+    color: '#111827',
+    fontFamily: 'Lexend-SemiBold',
+  },
   button: {
-    backgroundColor: '#2563eb',
     borderRadius: 255,
     paddingHorizontal: 32,
     paddingVertical: 18,
@@ -134,10 +124,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
     fontSize: 14,
     fontFamily: 'Lexend-Medium',
     marginLeft: 6,
+  },
+  buttonPrimary: {
+    backgroundColor: '#2563eb',
+  },
+  buttonTextPrimary: {
+    color: '#fff',
+  },
+  buttonSecondary: {
+    backgroundColor: '#FFF',
+    borderColor: '#f3f4f6',
+    borderWidth: 1,
+    elevation: 0.6,
+  },
+  buttonTextSecondary: {
+    color: '#111827',
   },
   icon: {
     width: 100,
@@ -147,23 +151,10 @@ const styles = StyleSheet.create({
   containerTag: {
     marginTop: 24,
   },
-  tagButton: {
-    backgroundColor: '#FFF',
-    borderWidth: 1,
-    borderColor: '#f3f4f6',
-    borderRadius: 255,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 8,
-    elevation: 1,
-  },
-  tagButtonText: {
-    fontSize: 12,
-    fontFamily: 'Lexend-Regular',
-    marginLeft: 8,
-    color: '#111827',
+  buttonContainer: {
+    width: '100%',
+    paddingBottom: 32,
+    paddingHorizontal: 32,
+    rowGap: 10,
   },
 });
