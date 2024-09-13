@@ -5,7 +5,7 @@ import {PlusIcon} from 'react-native-heroicons/outline';
 
 export const FloatingButton = () => {
   const {navigateTo} = useAppNavigation();
-  const navigateToSpace = () => navigateTo(RoutesSpace.SuccessSpace);
+  const navigateToSpace = () => navigateTo(RoutesSpace.MethodSpace);
   return (
     <View
       style={{

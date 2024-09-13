@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RoutesSpace} from '@/navigation/routes.ts';
-import {JoinSpace, Space, Spaces, SuccessSpace} from '@/pages';
+import {JoinSpace, MethodSpace, Space, Spaces, SuccessSpace} from '@/pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +17,7 @@ export default function SpaceNavigator() {
       <Stack.Screen name={RoutesSpace.JoinSpace} component={JoinSpace} />
       <Stack.Screen name={RoutesSpace.Space} component={Space} />
       <Stack.Screen name={RoutesSpace.SuccessSpace} component={SuccessSpace} />
+      <Stack.Screen name={RoutesSpace.MethodSpace} component={MethodSpace} />
     </Stack.Navigator>
   );
 }

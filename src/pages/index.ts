@@ -8,3 +8,4 @@ export {default as Notification} from './notification';
 export {default as JoinSpace} from './spaces/join-space';
 export {default as Space} from './spaces/space';
 export {default as SuccessSpace} from './spaces/success-space';
+export {default as MethodSpace} from './spaces/method-space';
