@@ -12,8 +12,13 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 import iconSuccess from '@/assets/icon-success.png';
 import {Battery50Icon, BoltIcon} from 'react-native-heroicons/solid';
 import {ActionButton} from '@/components/success-space';
+import {RoutesSpace} from '@/navigation/routes';
+import {useAppNavigation} from '@/hooks';
 
 export default function SuccessSpace() {
+  const {navigateTo} = useAppNavigation();
+  const navigateToBack = () => navigateTo(RoutesSpace.Space);
+  const navigateToAttendance = () => navigateTo(RoutesSpace.Spaces);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -56,12 +61,16 @@ export default function SuccessSpace() {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
+          <TouchableOpacity
+            style={[styles.button, styles.buttonPrimary]}
+            onPress={navigateToAttendance}>
             <Text style={[styles.buttonTextPrimary, styles.buttonText]}>
               Ver mis asistencias
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.buttonSecondary, styles.button]}>
+          <TouchableOpacity
+            style={[styles.buttonSecondary, styles.button]}
+            onPress={navigateToBack}>
             <Text style={[styles.buttonText, styles.buttonTextSecondary]}>
               Volver atrás
             </Text>

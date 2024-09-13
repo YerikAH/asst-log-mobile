@@ -1,7 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RoutesSpace} from '@/navigation/routes.ts';
-import {JoinSpace, Space, Spaces} from '@/pages';
-import SuccessSpace from '@/pages/spaces/success-space/inde';
+import {JoinSpace, Space, Spaces, SuccessSpace} from '@/pages';
 
 const Stack = createNativeStackNavigator();
 
