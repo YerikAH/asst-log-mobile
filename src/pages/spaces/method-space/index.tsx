@@ -1,3 +1,4 @@
+import {QrCodeScanner} from '@/components/method-space';
 import {CustomHeader} from '@/components/shared';
 import {useAppNavigation} from '@/hooks';
 import {RoutesSpace} from '@/navigation/routes';
@@ -21,11 +22,8 @@ export default function MethodSpace() {
         showHideTransition="slide"
       />
       <CustomHeader navigate={navigateToSpaces} title="Registrar asistencia" />
-      <ScrollView
-        style={{paddingHorizontal: 32, paddingTop: 32}}
-        showsVerticalScrollIndicator={false}>
-        <Text>Hola mundo</Text>
-      </ScrollView>
+
+      <QrCodeScanner />
     </SafeAreaView>
   );
 }
