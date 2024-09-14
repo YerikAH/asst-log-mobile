@@ -189,7 +189,7 @@ export default function Login() {
               {loader && <ActivityIndicator size="small" color="#FFF" />}
               <Text style={styles.buttonText}>Ingresar</Text>
             </TouchableOpacity>
-            {!loader && error.error && data === null && (
+            {!loader && error.error && (
               <Text
                 style={{...styles.error, textAlign: 'center', marginTop: 5}}>
                 {error.message}

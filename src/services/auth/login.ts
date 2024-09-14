@@ -8,7 +8,7 @@ interface Params {
 
 export const login = async ({email, password}: Params) => {
   try {
-    const res = await axios.post(`${API}/login`, {
+    const res = await axios.post(`${API}/users/login`, {
       email,
       password,
     });

@@ -8,21 +8,49 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import logo from '@/assets/logo-icon.png';
 import {EyeIcon, EyeSlashIcon} from 'react-native-heroicons/solid';
-import {useState} from 'react';
-import {useAppNavigation} from '@/hooks';
+import {useEffect, useState} from 'react';
+import {useAppNavigation, useFetch} from '@/hooks';
 import {Routes} from '@/navigation/routes';
 import google from '@/assets/icon/google.png';
+import {Controller, useForm} from 'react-hook-form';
+import {register} from '@/services/auth/register';
 
+interface RegisterForm {
+  email: string;
+  password: string;
+  lastname: string;
+  name: string;
+}
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => setShowPassword(!showPassword);
+  const {error, loader, data, fetchData} = useFetch(register);
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<RegisterForm>({
+    defaultValues: {
+      email: '',
+      password: '',
+      lastname: '',
+      name: '',
+    },
+  });
 
+  const onSubmit = async (dataForm: RegisterForm) => await fetchData(dataForm);
   const {navigateTo} = useAppNavigation();
   const navigateToLogin = () => navigateTo(Routes.Login);
   const navigateToDashboard = () => navigateTo(Routes.Tabs);
+
+  useEffect(() => {
+    if (error.error && !loader && data === null) return;
+    if (!error.error && !loader && data !== null) navigateToLogin();
+  }, [error, loader, data]);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -66,27 +94,75 @@ export default function Register() {
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 1, marginRight: 8}}>
                 <Text style={styles.labelInput}>Ingresa tu nombre:</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Ej. Jorge"
-                  placeholderTextColor="#d1d5db"
-                  cursorColor="#2563eb"
-                  inputMode="text"
-                  autoComplete="name"
-                  selectionColor="#bfdbfe"
+                <Controller
+                  rules={{
+                    required: 'El nombre es obligatorio',
+                    minLength: {
+                      value: 2,
+                      message: 'El nombre debe tener al menos 2 caracteres',
+                    },
+                    pattern: {
+                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
+                      message:
+                        'El nombre solo puede contener letras y espacios',
+                    },
+                  }}
+                  control={control}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Ej. Jorge"
+                      placeholderTextColor="#d1d5db"
+                      cursorColor="#2563eb"
+                      inputMode="text"
+                      autoComplete="name"
+                      selectionColor="#bfdbfe"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="name"
                 />
+                {errors.name && (
+                  <Text style={styles.error}>{errors.name.message}</Text>
+                )}
               </View>
               <View style={{flex: 1, marginLeft: 8}}>
                 <Text style={styles.labelInput}>Ingresa tu apellido:</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Ej. Mates"
-                  placeholderTextColor="#d1d5db"
-                  cursorColor="#2563eb"
-                  inputMode="text"
-                  autoComplete="family-name"
-                  selectionColor="#bfdbfe"
+                <Controller
+                  rules={{
+                    required: 'El apellido es obligatorio',
+                    minLength: {
+                      value: 2,
+                      message: 'El apellido debe tener al menos 2 caracteres',
+                    },
+                    pattern: {
+                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
+                      message:
+                        'El apellido solo puede contener letras y espacios',
+                    },
+                  }}
+                  control={control}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Ej. Mates"
+                      placeholderTextColor="#d1d5db"
+                      cursorColor="#2563eb"
+                      inputMode="text"
+                      autoComplete="family-name"
+                      selectionColor="#bfdbfe"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="lastname"
                 />
+                {errors.lastname && (
+                  <Text style={styles.error}>{errors.lastname.message}</Text>
+                )}
               </View>
             </View>
 
@@ -94,15 +170,34 @@ export default function Register() {
               <Text style={styles.labelInput}>
                 Ingresa tu correo electronico:
               </Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ej. jorge@email.com"
-                placeholderTextColor="#d1d5db"
-                cursorColor="#2563eb"
-                inputMode="email"
-                autoComplete="email"
-                selectionColor="#bfdbfe"
+              <Controller
+                rules={{
+                  required: 'El correo electrónico es obligatorio',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: 'Introduce un correo electrónico válido',
+                  },
+                }}
+                control={control}
+                render={({field: {onChange, onBlur, value}}) => (
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Ej. jorge@email.com"
+                    placeholderTextColor="#d1d5db"
+                    cursorColor="#2563eb"
+                    inputMode="email"
+                    autoComplete="email"
+                    selectionColor="#bfdbfe"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="email"
               />
+              {errors.email && (
+                <Text style={styles.error}>{errors.email.message}</Text>
+              )}
             </View>
 
             <View style={{marginTop: 24}}>
@@ -117,25 +212,58 @@ export default function Register() {
                     <EyeSlashIcon size={14} color="#6b7280" />
                   )}
                 </TouchableOpacity>
-                <TextInput
-                  style={[styles.input, {paddingRight: 46}]}
-                  placeholder="Ej. AgawqBW!3Gw"
-                  placeholderTextColor="#d1d5db"
-                  cursorColor="#2563eb"
-                  inputMode="text"
-                  autoComplete="password"
-                  selectionColor="#bfdbfe"
-                  secureTextEntry={!showPassword}
+                <Controller
+                  rules={{
+                    required: 'La contraseña es obligatoria',
+                    minLength: {
+                      value: 8,
+                      message: 'La contraseña debe tener al menos 8 caracteres',
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                      message:
+                        'La contraseña debe incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial',
+                    },
+                  }}
+                  control={control}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      style={[styles.input, {paddingRight: 46}]}
+                      placeholder="Ej. AgawqBW!3Gw"
+                      placeholderTextColor="#d1d5db"
+                      cursorColor="#2563eb"
+                      inputMode="text"
+                      autoComplete="password"
+                      selectionColor="#bfdbfe"
+                      secureTextEntry={!showPassword}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="password"
                 />
+                {errors.password && (
+                  <Text style={styles.error}>{errors.password.message}</Text>
+                )}
               </View>
             </View>
           </View>
           <View>
             <TouchableOpacity
               style={styles.button}
-              onPress={navigateToDashboard}>
+              onPress={handleSubmit(onSubmit)}
+              disabled={loader}>
+              {loader && <ActivityIndicator size="small" color="#FFF" />}
               <Text style={styles.buttonText}>Crear nueva cuenta</Text>
             </TouchableOpacity>
+            {!loader && error.error && (
+              <Text
+                style={{...styles.error, textAlign: 'center', marginTop: 5}}>
+                {error.message}
+              </Text>
+            )}
             <View style={styles.separatorContainer}>
               <View style={styles.separatorLeft} />
               <Text style={styles.separatorText}>O continuar con</Text>
@@ -314,5 +442,10 @@ const styles = StyleSheet.create({
   },
   buttonTabActive: {
     backgroundColor: '#fff',
+  },
+  error: {
+    fontSize: 10,
+    color: '#ef4444',
+    fontFamily: 'Lexend-Regular',
   },
 });
