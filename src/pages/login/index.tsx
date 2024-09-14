@@ -8,21 +8,48 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import logo from '@/assets/logo-icon.png';
 import {EyeIcon, EyeSlashIcon} from 'react-native-heroicons/solid';
-import {useState} from 'react';
-import {useAppNavigation} from '@/hooks';
+import {useEffect, useState} from 'react';
+import {useAppNavigation, useFetch} from '@/hooks';
 import {Routes} from '@/navigation/routes';
 import google from '@/assets/icon/google.png';
+import {Controller, useForm} from 'react-hook-form';
+import {login} from '@/services/auth/login';
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => setShowPassword(!showPassword);
+  const {error, loader, data, fetchData} = useFetch(login);
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<LoginForm>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (dataForm: LoginForm) => await fetchData(dataForm);
 
   const {navigateTo} = useAppNavigation();
   const navigateToRegister = () => navigateTo(Routes.Register);
   const navigateToDashboard = () => navigateTo(Routes.Tabs);
+
+  useEffect(() => {
+    if (error.error && !loader && data === null) return;
+    if (!error.error && !loader && data !== null) navigateToDashboard();
+  }, [error, loader, data]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -67,15 +94,34 @@ export default function Login() {
               <Text style={styles.labelInput}>
                 Ingresa tu correo electronico:
               </Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ej. jorge@email.com"
-                placeholderTextColor="#d1d5db"
-                cursorColor="#2563eb"
-                inputMode="email"
-                autoComplete="email"
-                selectionColor="#bfdbfe"
+              <Controller
+                rules={{
+                  required: 'El correo electrónico es obligatorio',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: 'Introduce un correo electrónico válido',
+                  },
+                }}
+                control={control}
+                render={({field: {onChange, onBlur, value}}) => (
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Ej. jorge@email.com"
+                    placeholderTextColor="#d1d5db"
+                    cursorColor="#2563eb"
+                    inputMode="email"
+                    autoComplete="email"
+                    selectionColor="#bfdbfe"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="email"
               />
+              {errors.email && (
+                <Text style={styles.error}>{errors.email.message}</Text>
+              )}
             </View>
 
             <View style={{marginTop: 24}}>
@@ -90,17 +136,42 @@ export default function Login() {
                     <EyeSlashIcon size={14} color="#6b7280" />
                   )}
                 </TouchableOpacity>
-                <TextInput
-                  style={[styles.input, {paddingRight: 46}]}
-                  placeholder="Ej. AgawqBW!3Gw"
-                  placeholderTextColor="#d1d5db"
-                  cursorColor="#2563eb"
-                  inputMode="text"
-                  autoComplete="password"
-                  selectionColor="#bfdbfe"
-                  secureTextEntry={!showPassword}
+                <Controller
+                  rules={{
+                    required: 'La contraseña es obligatoria',
+                    minLength: {
+                      value: 8,
+                      message: 'La contraseña debe tener al menos 8 caracteres',
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                      message:
+                        'La contraseña debe incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial',
+                    },
+                  }}
+                  control={control}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      style={[styles.input, {paddingRight: 46}]}
+                      placeholder="Ej. AgawqBW!3Gw"
+                      placeholderTextColor="#d1d5db"
+                      cursorColor="#2563eb"
+                      inputMode="text"
+                      autoComplete="password"
+                      selectionColor="#bfdbfe"
+                      secureTextEntry={!showPassword}
+                    />
+                  )}
+                  name="password"
                 />
               </View>
+              {errors.password && (
+                <Text style={styles.error}>{errors.password.message}</Text>
+              )}
             </View>
           </View>
           <View>
@@ -113,9 +184,17 @@ export default function Login() {
             </View>
             <TouchableOpacity
               style={styles.button}
-              onPress={navigateToDashboard}>
+              onPress={handleSubmit(onSubmit)}
+              disabled={loader}>
+              {loader && <ActivityIndicator size="small" color="#FFF" />}
               <Text style={styles.buttonText}>Ingresar</Text>
             </TouchableOpacity>
+            {!loader && error.error && data === null && (
+              <Text
+                style={{...styles.error, textAlign: 'center', marginTop: 5}}>
+                {error.message}
+              </Text>
+            )}
             <View style={styles.separatorContainer}>
               <View style={styles.separatorLeft} />
               <Text style={styles.separatorText}>O continuar con</Text>
@@ -294,5 +373,10 @@ const styles = StyleSheet.create({
   },
   buttonTabActive: {
     backgroundColor: '#fff',
+  },
+  error: {
+    fontSize: 10,
+    color: '#ef4444',
+    fontFamily: 'Lexend-Regular',
   },
 });
