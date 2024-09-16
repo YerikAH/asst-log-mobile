@@ -45,7 +45,6 @@ export default function Register() {
   const onSubmit = async (dataForm: RegisterForm) => await fetchData(dataForm);
   const {navigateTo} = useAppNavigation();
   const navigateToLogin = () => navigateTo(Routes.Login);
-  const navigateToDashboard = () => navigateTo(Routes.Tabs);
 
   useEffect(() => {
     if (error.error && !loader && data === null) return;
