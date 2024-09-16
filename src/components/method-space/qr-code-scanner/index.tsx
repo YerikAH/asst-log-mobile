@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -15,6 +15,8 @@ import {
 } from 'react-native-vision-camera';
 import Svg, {Defs, G, Mask, Rect} from 'react-native-svg';
 import {CameraIcon, QrCodeIcon} from 'react-native-heroicons/solid';
+import {useAppNavigation} from '@/hooks';
+import {RoutesSpace} from '@/navigation/routes';
 
 const {width, height} = Dimensions.get('window');
 const frameWidth = 280;
@@ -23,12 +25,16 @@ const frameX = (width - frameWidth) / 2;
 const frameY = (height - frameHeight) / 2 - 100;
 
 export const QrCodeScanner = () => {
+  const [code, setCode] = useState('');
   const device = useCameraDevice('back');
   const {hasPermission, requestPermission} = useCameraPermission();
+  const {navigateTo} = useAppNavigation();
+  const navigateToSuccess = () => navigateTo(RoutesSpace.SuccessSpace);
+
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: codes => {
-      console.log(`Scanned ${codes.length} codes!`);
+      setCode(codes[0].value);
     },
   });
 
@@ -86,7 +92,7 @@ export const QrCodeScanner = () => {
               strokeLinecap="round"
             />
           </Svg>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={navigateToSuccess}>
             <CameraIcon color="#FFF" size={16} />
             <Text style={styles.buttonText}>Escanenando código QR</Text>
           </TouchableOpacity>
